@@ -1,0 +1,103 @@
+@page
+@model DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<div>
+    <a asp-page="Index"><img src="/css/img/goback.png" alt="Go back" width="64" height="64"/></a>
+</div>
+
+<h1>Delete</h1>
+
+<h2>Are you sure you want to delete these options?</h2>
+<h2>All games associated with these options will be deleted as well!</h2>
+<div>
+    <h2>CheckersOption</h2>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-6">
+            <h4>Name:</h4>
+        </dt>
+        <dd class="col-sm-6">
+            <h4>@Html.DisplayFor(model => model.CheckersOption.Name)</h4>
+        </dd>
+        <dt class="col-sm-6">
+            <h4>Board Width:</h4>
+        </dt>
+        <dd class="col-sm-6">
+            <h4>@Html.DisplayFor(model => model.CheckersOption.Width)</h4>
+        </dd>
+        <dt class="col-sm-6">
+            <h4>Board Height:</h4>
+        </dt>
+        <dd class="col-sm-6">
+            <h4>@Html.DisplayFor(model => model.CheckersOption.Height)</h4>
+        </dd>
+        <dt class="col-sm-6">
+            <h4>Rows of pieces (per player):</h4>
+        </dt>
+        <dd class="col-sm-6">
+            <h4>@Html.DisplayFor(model => model.CheckersOption.RowsOfPieces)</h4>
+        </dd>
+        <dt class="col-sm-6">
+            <h4>Black starts:</h4>
+        </dt>
+        <dd class="col-sm-6">
+            @if (Model.CheckersOption.BlackStarts)
+            {
+                <img src="/css/img/yes.png" width="32px" height="32px" alt="Yes">
+            }
+            else
+            {
+                <img src="/css/img/no.png" width="32px" height="32px" alt="No">
+            }
+        </dd>
+        <dt class="col-sm-6">
+            <h4>Capturing enemy piece is mandatory:</h4>
+        </dt>
+        <dd class="col-sm-6">
+            @if (Model.CheckersOption.CapturingIsMandatory)
+            {
+                <img src="/css/img/yes.png" width="32px" height="32px" alt="Yes">
+            }
+            else
+            {
+                <img src="/css/img/no.png" width="32px" height="32px" alt="No">
+            }
+        </dd>
+        <dt class="col-sm-6">
+            <h4>Flying kings:</h4>
+        </dt>
+        <dd class="col-sm-6">
+            @if (Model.CheckersOption.FlyingKings)
+            {
+                <img src="/css/img/yes.png" width="32px" height="32px" alt="Yes">
+            }
+            else
+            {
+                <img src="/css/img/no.png" width="32px" height="32px" alt="No">
+            }
+        </dd>
+        <dt class="col-sm-6">
+            <h4>Pieces capturing forward and backward:</h4>
+        </dt>
+        <dd class="col-sm-6">
+            @if (Model.CheckersOption.PiecesCapturingForwardAndBackward)
+            {
+                <img src="/css/img/yes.png" width="32px" height="32px" alt="Yes">
+            }
+            else
+            {
+                <img src="/css/img/no.png" width="32px" height="32px" alt="No">
+            }
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="CheckersOption.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger btn-lg" />
+    </form>
+</div>

@@ -1,0 +1,201 @@
+@page
+@using Domain
+@model WebApp.Pages.CheckersGames.Play
+
+@{
+    ViewData["Title"] = "Playing";
+}
+
+@if (!Model.CheckersGame.GameOverAt.HasValue)
+{
+    if (Model.CheckersGame.Player1Type == EPlayerType.Ai && Model.CheckersGame.Player2Type == EPlayerType.Ai)
+    {
+        <h1>@(Model.Player1MadeAMove ? "Black" : "Red") made a move</h1>
+    }
+    else
+    {
+        <h1 style="color: @(Model.PlayerNo == 1 ? "black" : "red") ">Playing as: @GetPlayerName() (@(Model.PlayerNo == 1 ? "black" : "Red"))</h1>
+        <h2>Your status: @GetPlayerMoveStatus()</h2>
+    }
+
+    <aside style="float:right; display:flex;">
+        <div>
+            <h2><img src="/css/img/blackpiece.png" width="64" height="64" alt="Black"/> pieces left: @Model.BlackPiecesLeft</h2>
+            <br/>
+            <h2><img src="/css/img/redpiece.png" width="64" height="64" alt="Red"/> pieces left: @Model.WhitePiecesLeft</h2>
+        </div>
+    </aside>
+    
+    <table class="table table-bordered game-table">
+    
+        @{
+            var boardCopy = Model.Brain.GetBoard();
+        }
+        @{
+            int x1;
+            int x2;
+            int y1;
+            int y2;
+        }
+    
+        @for (var x = 0; x < boardCopy.GetLength(0); x++)
+        {
+            <tr>
+                @for (var y = 0; y < boardCopy[0].GetLength(0); y++)
+                {
+
+                    x1 = x;
+                    x2 = x;
+                    y1 = y;
+                    y2 = y;
+                    if (TempData.ContainsKey("firstCoordinates"))
+                    {
+                        var list = (int[])TempData["firstCoordinates"]!;
+                        x1 = list[0];
+                        y1 = list[1];
+                    }
+                    <td class="game-table-Cell @GetCellBgrClass(Model.Brain.GetBoard()[x][y], x1, y1, x2, y2)"
+                        @if (x1 == x2 && y1 == y2 && Model.Brain.FirstClickIsValid(x1, y1, Model.NextMoveByBlack) && IsHumanMove() ||
+                             x1 != x2 && IsHumanMove() ||
+                             y1 != y2 && IsHumanMove())
+                        {
+                            <text>onclick="window.location = '/CheckersGames/Play?id=@Model.CheckersGame.Id&playerNo=@Model.PlayerNo&x1=@x1&y1=@y1&x2=@x2&y2=@y2'"</text>
+                        }>
+                        @if (Model.Brain.GetBoard()[x][y] == EGameSquareState.BlackKing ||
+                             Model.Brain.GetBoard()[x][y] == EGameSquareState.BlackPiece ||
+                             Model.Brain.GetBoard()[x][y] == EGameSquareState.WhiteKing ||
+                             Model.Brain.GetBoard()[x][y] == EGameSquareState.WhitePiece)
+                        {
+                            <img src="@GetPieceLocation(Model.Brain.GetBoard()[x][y])" alt="piece" width="80" height="80"/>
+                            
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+
+}
+@if (Model.CheckersGame.GameOverAt.HasValue)
+{
+    <h1 style="color: @(Model.CheckersGame.GameWonByPlayer == Model.CheckersGame.Player1Name ? "black" : "red")">
+        @Model.CheckersGame.GameWonByPlayer
+        @(Model.CheckersGame.GameWonByPlayer == Model.CheckersGame.Player1Name ? "(black)" : "(red)")
+        won the game!
+    </h1>
+}
+
+
+
+
+@functions
+{
+    string GetPieceLocation(EGameSquareState state)
+    {
+        if (state == EGameSquareState.BlackKing)
+        {
+            return "/css/img/blackking.png";
+        }
+        if (state == EGameSquareState.BlackPiece)
+        {
+            return "/css/img/blackpiece.png";
+        }
+        if (state == EGameSquareState.WhiteKing)
+        {
+            return "/css/img/redking.png";
+        }
+        if (state == EGameSquareState.WhitePiece)
+        {
+            return "/css/img/redpiece.png";
+        }
+        return "";
+    }
+    
+    
+    string GetCellBgrClass(EGameSquareState state, int x1, int y1,int x2, int y2)
+    {
+        if (TempData.ContainsKey("firstCoordinates"))
+        {
+
+            if (Model.NextMoveByBlack)
+            {
+                if (Model.Brain.IsMovePossible(x1, y1, x2,y2, Model.NextMoveByBlack,Model.CheckersGame.CheckersOption!,false))
+                {
+                    return "game-table-cell-suggestedMoveForBlack";
+                }
+            }
+            if (Model.NextMoveByBlack == false)
+            {
+                if (Model.Brain.IsMovePossible(x1, y1, x2,y2, Model.NextMoveByBlack,Model.CheckersGame.CheckersOption!,false))
+                {
+                    return "game-table-cell-suggestedMoveForWhite";
+                }
+            }
+        }
+
+        if (state == EGameSquareState.Light)
+        {
+            return "game-table-whiteCell";
+        }
+        return "game-table-blackCell";
+    }
+
+    
+    string GetPlayerMoveStatus()
+    {
+        if (Model.NextMoveByBlack && Model.PlayerNo == 1 || !Model.NextMoveByBlack && Model.PlayerNo == 2)
+        {
+            return "Make a move!!!";
+        }
+        if (Model.NextMoveByBlack && Model.PlayerNo == 2 || !Model.NextMoveByBlack && Model.PlayerNo == 1)
+        {
+            return "Please wait for opponents move!";
+        }
+        return "Something is wrong!!!";
+    }
+    string GetPlayerName()
+    {
+        return Model.PlayerNo == 1 ? Model.CheckersGame.Player1Name : Model.CheckersGame.Player2Name;
+    }
+    
+
+    
+    bool IsHumanMove()
+    {
+        if (Model.NextMoveByBlack && Model.PlayerNo == 1 && Model.CheckersGame.Player1Type == EPlayerType.Human)
+        {
+            return true;
+        }
+        
+        if (!Model.NextMoveByBlack && Model.PlayerNo == 2 && Model.CheckersGame.Player2Type == EPlayerType.Human)
+        {
+            return true;
+        }
+
+        return false;
+    }
+}
+
+
+@section Scripts
+{
+
+    @if (!IsHumanMove() && !Model.CheckersGame.GameOverAt.HasValue)
+    {
+        <script>
+            setTimeout( () => {
+                window.location = '/CheckersGames/Play?id=@Model.CheckersGame.Id&playerNo=@Model.PlayerNo&AiMove=@Model.AiMove';
+            }, 1000);
+        </script>
+    }
+    @if (Model.CheckersGame.GameOverAt.HasValue)
+    {
+        <script>
+            setTimeout( () => {
+                window.location = '/CheckersGames';
+            }, 5000);
+        </script>
+    }
+
+
+}

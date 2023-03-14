@@ -1,0 +1,14 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">CHECKERS GAME</h1>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <a asp-page="/CheckersGames/Create" class="btn btn-primary btn-lg">Start a new game</a>
+      <a asp-page="/CheckersGames/Index" class="btn btn-primary btn-lg">List games</a>
+    </div>
+</div>

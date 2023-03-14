@@ -1,0 +1,88 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  color: white;
+  background-image: url("img/background.webp");
+  background-size:contain;
+}
+
+th{
+  font-size: 26px;
+  color: darkred;
+}
+
+td {
+  font-size: 20px;
+  color: darkred;
+  font-weight: bold;
+}
+
+.game-table{
+  border: 1px solid goldenrod !important;
+  width: initial;
+
+}
+.my-table{
+  border: 1px solid goldenrod !important;
+}
+
+.game-table-blackCell {
+  width: 100px;
+  height: 100px;
+  background-color: darkblue !important;
+}
+.game-table-whiteCell {
+  width: 100px;
+  height: 100px;
+  background-color: white !important;
+}
+
+/*.game-table-cell-blackPiece{
+  width: 75px;
+  height: 75px;
+  background-color: blue !important;
+}
+
+.game-table-cell-whitePiece{
+  width: 75px;
+  height: 75px;
+  background-color: red !important;
+}
+
+.game-table-cell-blackKing{
+  width: 75px;
+  height: 75px;
+  background-color: darkblue !important;
+}
+
+.game-table-cell-whiteKing{
+  width: 75px;
+  height: 75px;
+  background-color: darkred !important;
+}*/
+
+.game-table-cell-suggestedMoveForBlack{
+  width: 100px;
+  height: 100px;
+  background-color: gray !important;
+}
+.game-table-cell-suggestedMoveForWhite{
+  width: 100px;
+  height: 100px;
+  background-color: lightcoral !important;
+}
+

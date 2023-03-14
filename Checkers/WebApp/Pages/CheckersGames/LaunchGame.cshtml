@@ -1,0 +1,22 @@
+@page
+@model WebApp.Pages.CheckersGames.LaunchGame
+
+
+<h2>Please check for <b>pop-up blocker</b> if game screens where not launched into separate tabs in few seconds!</h2>
+
+Link1: <a id="link1" asp-page="Play" asp-route-playerNo="1" asp-route-id="@Model.GameId">Player 1 page</a> 
+Link2: <a id="link2" asp-page="Play" asp-route-playerNo="2" asp-route-id="@Model.GameId" target="_blank">Player 2 page</a>
+
+@section Scripts
+{
+    <script>
+        setTimeout(() => {
+            let link1 = document.querySelector("#link1");
+            let link2 = document.querySelector("#link2");
+            
+            link2.click();
+            link1.click();
+        }, 5000);
+        
+    </script>
+}

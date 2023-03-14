@@ -1,0 +1,71 @@
+@page
+@model CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div>
+    <a asp-page="Index"><img src="/css/img/goback.png" alt="Go back" width="64" height="64"/></a>
+</div>
+
+<h1>Create</h1>
+
+<h2>CheckersOption</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CheckersOption.Name" class="control-label"><h4>Name:</h4></label>
+                <input asp-for="CheckersOption.Name" class="form-control" />
+                <span asp-validation-for="CheckersOption.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckersOption.Width" class="control-label"><h4>Board width:</h4></label>
+                <input asp-for="CheckersOption.Width" class="form-control" />
+                <span asp-validation-for="CheckersOption.Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckersOption.Height" class="control-label"><h4>Board Height:</h4></label>
+                <input asp-for="CheckersOption.Height" class="form-control" />
+                <span asp-validation-for="CheckersOption.Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckersOption.RowsOfPieces" class="control-label"><h4>Rows of pieces (per player):</h4></label>
+                <input asp-for="CheckersOption.RowsOfPieces" class="form-control" />
+                <span asp-validation-for="CheckersOption.RowsOfPieces" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CheckersOption.BlackStarts" /> <h4>Player with "Black" pieces starts (yes/no)</h4>
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CheckersOption.CapturingIsMandatory" /><h4>Capturing as many opponent's pieces as possible is mandatory (yes/no)</h4>
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CheckersOption.FlyingKings" /> <h4>"Flying Kings", meaning king can move diagonally any number of fields (yes/no)</h4>
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CheckersOption.PiecesCapturingForwardAndBackward" /> <h4>With ordinary pieces, you can capture forwards as well as backwards (yes/no)</h4>
+                </label>
+            </div>
+            <br/>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary btn-lg" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

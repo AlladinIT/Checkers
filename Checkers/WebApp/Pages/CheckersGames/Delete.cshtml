@@ -1,0 +1,80 @@
+@page
+@model DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<div>
+    <a asp-page="Index"><img src="/css/img/goback.png" alt="Go back" width="64" height="64"/></a>
+</div>
+
+<h1>Delete</h1>
+
+<h2>Are you sure you want to delete this game?</h2>
+<div>
+    <h2>CheckersGame</h2>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <h4>Name:</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h4>@Html.DisplayFor(model => model.CheckersGame.Name)</h4>
+        </dd>
+        <dt class="col-sm-2">
+            <h4>Started at:</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h4>@Html.DisplayFor(model => model.CheckersGame.StartedAt)</h4>
+        </dd>
+        <dt class="col-sm-2">
+            <h4>Game over at:</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h4>@Html.DisplayFor(model => model.CheckersGame.GameOverAt)</h4>
+        </dd>
+        <dt class="col-sm-2">
+            <h4>Winner:</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h4>@Html.DisplayFor(model => model.CheckersGame.GameWonByPlayer)</h4>
+        </dd>
+        <dt class="col-sm-2">
+            <h4>Player-1 Name:</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h4>@Html.DisplayFor(model => model.CheckersGame.Player1Name)</h4>
+        </dd>
+        <dt class="col-sm-2">
+            <h4>Player-1 Type:</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h4>@Html.DisplayFor(model => model.CheckersGame.Player1Type)</h4>
+        </dd>
+        <dt class="col-sm-2">
+            <h4>Player-2 Name:</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h4>@Html.DisplayFor(model => model.CheckersGame.Player2Name)</h4>
+        </dd>
+        <dt class="col-sm-2">
+            <h4>Player-2 Type:</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h4>@Html.DisplayFor(model => model.CheckersGame.Player2Type)</h4>
+        </dd>
+        <dt class="col-sm-2">
+            <h4>Options:</h4>
+        </dt>
+        <dd class="col-sm-10">
+            <h4>@Html.DisplayFor(model => model.CheckersGame.CheckersOption!.Name)</h4>
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="CheckersGame.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
+    </form>
+</div>

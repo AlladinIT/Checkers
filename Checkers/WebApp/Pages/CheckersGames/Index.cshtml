@@ -1,0 +1,178 @@
+@page
+@using Domain
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>List of saved games</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary btn-lg" >Create New Game</a>
+</p>
+
+
+<br/>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="get">
+            <div class="form-group">
+                <label asp-for="Search" class="control-label"><h2>Search</h2></label>
+                <input asp-for="Search" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <input type="image" src="css/img/search.png" width="64px" height="64px" alt="Search"/>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<br/>
+
+
+
+<table class="table table-warning table-hover my-table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckersGame[0].Name)
+            </th>
+            <th>
+                Started at
+            </th>
+            <th>
+                Game over at
+            </th>
+            <th>
+                Winner
+            </th>
+            <th>
+                PLAYER-1 (BLUE):
+            </th>
+            <th></th>
+            <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <th>
+                PLAYER-2 (RED):
+            </th>
+            <th></th>
+            <th>
+                Options
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.CheckersGame) {
+        <tr>
+            
+            @if (item.Player1Type == EPlayerType.Ai && item.Player2Type == EPlayerType.Ai)
+            {
+                <td>
+                    Watch AI battle:
+                    <br>
+                    <a asp-page="./Play" asp-route-id="@item.Id" asp-route-playerNo="1" class="btn btn-outline-success btn-lg">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            }
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.StartedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameOverAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameWonByPlayer)
+            </td>
+            
+            @if (item.Player1Type == EPlayerType.Human)
+            {
+                <td>
+                    Continue as:
+                    <br/>
+                    <a asp-page="./Play" asp-route-id="@item.Id" asp-route-playerNo="1" class="btn btn-outline-success btn-lg">
+                        @Html.DisplayFor(modelItem => item.Player1Name)
+                    </a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Player1Name)
+                </td>
+            }
+            
+            @if (item.Player1Type == EPlayerType.Ai)
+            {
+                <td>
+                    <img src="css/img/ai.png"
+                         alt="AI" width="80" height="80"/>
+                </td>
+
+            }
+            else
+            {
+                <td>
+                    <img src="css/img/human.png"
+                         alt="HUMAN" width="80" height="80"/>
+                </td>
+            }
+
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            
+            @if (item.Player2Type == EPlayerType.Human)
+            {
+                <td>
+                    Continue as:
+                    <br/>
+                    <a asp-page="./Play" asp-route-id="@item.Id" asp-route-playerNo="2" class="btn btn-outline-success btn-lg">
+                        @Html.DisplayFor(modelItem => item.Player2Name)
+                    </a>
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Player2Name)
+                </td>
+            }
+            
+
+            @if (item.Player2Type == EPlayerType.Ai)
+            {
+                <td>
+                    <img src="css/img/ai.png"
+                         alt="AI" width="80" height="80"/>
+                </td>
+
+            }
+            else
+            {
+                <td>
+                    <img src="css/img/human.png"
+                         alt="HUMAN" width="80" height="80"/>
+                </td>
+            }
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckersOption!.Name)
+            </td>
+            <td>
+                <a asp-page="./Delete" asp-route-id="@item.Id"><img src="css/img/delete.png" width="64px" height="64px" alt="delete"></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
